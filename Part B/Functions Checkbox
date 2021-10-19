@@ -1,16 +1,17 @@
 Initialisation - NOT
 Trim - NOT
 FlowProperties - Done
+AeroAngles - NOT
 Controls - NOT
-AngularRates - NOT
-WindForces - NOT
-BodyForces - NOT
-PropForces - NOT
+AngularRates - NOT (Renee)
+WindForces - NOT (Datta)
+BodyForces - NOT (Datta)
+PropForces - NOT (Datta)
 Gravity - Done
-StateRates - NOT
-Integrate - NOT
-PlotData - NOT
-Main - NOT
+StateRates - NOT 
+Integrate - NOT 
+PlotData - NOT 
+Main - NOT 
 Cx - Done
 Cy - Done
 Cz - Done
