@@ -126,3 +126,69 @@ Ans2 = inv(M3)*M4;
 phi = rad2deg(Ans2(1))
 Aileron = rad2deg(Ans2(2))
 Rudder = rad2deg(Ans2(3))
+
+
+% TASK 2c------------------------------------------------------------------
+% Airpath (V and LVLH)
+% roll
+phi = deg2rad(phi); % Converts the input from degrees to radians
+
+Cx = [1 0          0;          
+     0 cos(phi)   sin(phi);
+     0 -sin(phi)  cos(phi)];
+   
+
+% climb angle
+theta = -7;
+ 
+theta = deg2rad(theta); % Converts the input from degrees to radians
+
+Cy = [cos(theta)   0  -sin(theta);          
+     0            1   0;
+     sin(theta)   0   cos(theta)];
+
+% angle of V from true north
+psi = -25;
+
+psi = deg2rad(psi); % Converts the input from degrees to radians
+
+Cz = [cos(psi)  sin(psi) 0;          
+     -sin(psi) cos(psi) 0;
+     0        0        1 ];
+
+ % V to LVLH
+ Cva = Cx*Cy*Cz;
+ 
+% body--------------------------------------------------------------------
+% Aerodynamic angles (V and body)
+
+% roll
+phi = 0; % Converts the input from degrees to radians
+
+Cx = [1 0          0;          
+     0 cos(phi)   sin(phi);
+     0 -sin(phi)  cos(phi)];
+
+% climb angle
+theta = alpha;
+ 
+theta = deg2rad(theta); % Converts the input from degrees to radians
+
+Cy = [cos(theta)   0  -sin(theta);          
+     0            1   0;
+     sin(theta)   0   cos(theta)];
+ 
+% angle of V from true north
+psi = beta;
+
+psi = deg2rad(psi); % Converts the input from degrees to radians
+
+Cz = [cos(psi)  sin(psi) 0;          
+     -sin(psi) cos(psi) 0;
+     0        0        1 ];
+ 
+% V to body
+Cba = Cx*Cy*Cz;
+
+Cvb = Cva*Cba'
+
