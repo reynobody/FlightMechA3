@@ -2,12 +2,12 @@
 
 function ret = AngularRates(X,Xdot)
 
-% Extract body accelerations components
+% Body rates rates
 udot = Xdot(1);
 vdot = Xdot(2);
 wdot = Xdot(3);
 
-% Extract body velocities components
+% body rates
 u = X(1);
 v = X(2);
 w = X(3);
@@ -22,7 +22,7 @@ alphadot = (u*wdot-w*udot)/(u^2+w^2);
 % Calculate total beta dot (beta rate of change)
 betadot = (vdot/V - v*Vdot/V^2)/sqrt(1-v^2/V^2);
 
-% Form an output vector
+% Output to ret
 ret.alphadot = alphadot;
 ret.betadot = betadot;
 
