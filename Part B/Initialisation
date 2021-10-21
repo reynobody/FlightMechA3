@@ -4,23 +4,24 @@
 % - initial conditions
 % - flightspeed
 
-function [flightdata,IC,V] = Initialisation(case)
+function [flightdata,IC,V] = Initialisation(condition)
 
-  if case == 1
-      V = 100*0.5144; % Flight speed in meters per second
-      IC = load('ICs_PC9_nominalCG1_100Kn_1000ft.mat'); % Load initial conditions of CG=1, 100 KTS
-      flightdata = aero3560_LoadFlightDataPC9_nominalCG1(); % Load flight data of CG=1
-   elseif case == 2
-      V = 180*0.5144; % Flight speed in meters per second
-      IC = load('ICs_PC9_nominalCG1_180Kn_1000ft.mat'); % Load initial conditions of CG=1, 180 KTS
-      flightdata = aero3560_LoadFlightDataPC9_nominalCG1(); % Load flight data of CG=1
-  elseif case == 3
+if condition == 1
+    V = 100*0.5144; % Flight speed in meters per second
+    IC = load('ICs_PC9_nominalCG1_100Kn_1000ft.mat'); % Load initial conditions of CG=1, 100 KTS
+    flightdata = aero3560_LoadFlightDataPC9_nominalCG1(); % Load flight data of CG=1
+elseif condition == 2
+    V = 180*0.5144; % Flight speed in meters per second
+    IC = load('ICs_PC9_nominalCG1_180Kn_1000ft.mat'); % Load initial conditions of CG=1, 180 KTS
+    flightdata = aero3560_LoadFlightDataPC9_nominalCG1(); % Load flight data of CG=1
+elseif condition == 3
     V = 100*0.5144;
     IC = load('ICs_PC9_CG2_100Kn_1000ft.mat'); % Load initial conditions of CG=2, 100 KTS
     flightdata = aero3560_LoadFlightDataPC9_CG2(); % Load flight data of CG=1
-  elseif case == 4
-     V = 180*0.5144;
-     IC = load('ICs_PC9_CG2_180Kn_1000ft.mat'); % Load initial conditions of CG=2, 180 KTS
-     flightdata = aero3560_LoadFlightDataPC9_CG2(); % Load flight data of CG=1
-     
+elseif condition == 4
+    V = 180*0.5144;
+    IC = load('ICs_PC9_CG2_180Kn_1000ft.mat'); % Load initial conditions of CG=2, 180 KTS
+    flightdata = aero3560_LoadFlightDataPC9_CG2(); % Load flight data of CG=1
+end
+
 end
