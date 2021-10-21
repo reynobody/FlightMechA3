@@ -1,15 +1,15 @@
 Initialisation - NOT DONE
-Trim - NOT DONE
+Trim - NOT DONE (Dorothy)
 FlowProperties
-AeroAngles - NOT DONE
+AeroAngles 
 Controls - NOT DONE
-AngularRates - NOT DONE (Renee)
+AngularRates
 WindForces - NOT DONE (Datta)
 BodyForces - NOT DONE (Datta)
 PropForces - NOT DONE (Datta)
 Gravity
-StateRates - NOT DONE
-Integrate - NOT DONE
+StateRates - NOT DONE (Dorothy)
+Integrate - NOT DONE 
 PlotData - NOT DONE
 Main - NOT DONE
 Cx
