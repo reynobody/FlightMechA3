@@ -22,7 +22,7 @@ U = zeros(4,1);
 % Start by guessing alpha0, dT0 and de0
 % Angle of Attack - alpha0
 CL = W/(Q*S);
-alpha0 = (CL-CLo)/CLa;
+alpha0 = (CL-Clo)/CLa;
 
 % Throttle - dT0 (gotta be between 0 and 1)
 dT0 = 0.5; % From lecture slides
