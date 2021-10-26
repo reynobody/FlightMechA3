@@ -2,14 +2,14 @@ Initialisation
 Trim
 FlowProperties
 AeroAngles 
-Controls - NOT DONE (Renee)
+Controls
 AngularRates
 WindForces - NOT DONE (Datta)
 BodyForces - NOT DONE (Datta)
 PropForces - NOT DONE (Datta)
 Gravity
-StateRates - NOT DONE (Dorothy)
-Integrate - NOT DONE (Datta)
+StateRates - PARTIALLY DONE (Dorothy)
+Integrate
 PlotData - NOT DONE
 Main - NOT DONE
 Cx
