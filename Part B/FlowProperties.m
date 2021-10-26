@@ -15,7 +15,7 @@ T0  = 288.15;    % Temperature [K]
 
 % Calculate pressures, temperatures, density at given altitude h
 T  = T0 - L*alt;
-P = P0 * (temp/temp_0)^(g/(L*R));
+P = P0 * (T/T0)^(g/(L*R));
 rho   = P/(R*T); % Ideal gas eqt
 Q = 0.5*rho*airspeed^2;
 
