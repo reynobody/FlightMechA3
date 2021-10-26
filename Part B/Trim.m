@@ -3,7 +3,7 @@
 
 % Determine the controls and states for steady level flight
 
-function  something = Trim(FlightData,V,h)
+function  Trimmed = Trim(FlightData,V,h)
 % Load in the Flight Data that we'll need 
 S = FlightData.Geo.S;
 g=FlightData.Inertial.g;           
