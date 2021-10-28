@@ -43,6 +43,12 @@ C8 = Ixx/C0;
 C9 = C8*(Ixx-Iyy)+C2*Ixz;
 
 % Find the body forces
+Fx = ;
+Fy = ;
+Fz= ;
+L = ;
+M = ;
+N = ;
 BodyForces
 
 % Find the state rates
