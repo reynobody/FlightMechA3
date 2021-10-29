@@ -111,7 +111,7 @@ end
 
 % Find the trimmed state
 X0 = zeros(13,1);
-x0(1:3)=[V*cos(X_approx(1)), 0, V*sin(X_approx(1))]';
+X0(1:3)=[V*cos(X_approx(1)), 0, V*sin(X_approx(1))]';
 
 euler = [0, X_approx(1), 0]';
 quats = e2q(euler);
