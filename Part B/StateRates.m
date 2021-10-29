@@ -46,7 +46,7 @@ C8 = Ixx/C0;
 C9 = C8*(Ixx-Iyy)+C2*Ixz;
 
 error=1; % a nice random big number
-tol = 10^(-1);
+tol = 10^(-8);
 
 % AngularRates_approx to something friendly
 AngularRates_approx = [0,0];
