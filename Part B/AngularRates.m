@@ -23,7 +23,6 @@ alphadot = (u*wdot-w*udot)/(u^2+w^2);
 betadot = (vdot/V - v*Vdot/V^2)/sqrt(1-v^2/V^2);
 
 % Output to ret
-ret.alphadot = alphadot;
-ret.betadot = betadot;
+ret=[alphadot,betadot];
 
 end
