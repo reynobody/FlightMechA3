@@ -6,6 +6,9 @@
 
 function Xdot = StateRates(X,FlightData,h,U)
 
+g=FlightData.Inertial.g;
+m=FlightData.Inertial.m;
+
 % separate out the current state
 u = X(1);
 v = X(2);
@@ -15,13 +18,13 @@ p = X(4);
 q = X(5);
 r = X(6);
 
-Q = X(7:10);
-q0 = Q(1);
-q1 = Q(2);
-q2 = Q(3);
-q3 = Q(4);
+quaternions = X(7:10);
+q0 = quaternions(1);
+q1 = quaternions(2);
+q2 = quaternions(3);
+q3 = quaternions(4);
 
-E = q2e(Q);
+E = q2e(quaternions);
 phi = E(1);
 theta = E(2);
 psi = E(3);
@@ -42,14 +45,21 @@ C7 = C5*(Izz-Ixx);
 C8 = Ixx/C0;
 C9 = C8*(Ixx-Iyy)+C2*Ixz;
 
+error=1; % a nice random big number
+tol = 10^(-1);
+
+% AngularRates_approx to something friendly
+AngularRates_approx = [0,0];
+
+% The iteration loop starts here!
+while error > tol
 % Find the body forces
-Fx = ;
-Fy = ;
-Fz= ;
-L = ;
-M = ;
-N = ;
-BodyForces
+[body, M, N, L] = BodyForces(FlightData, X, AngularRates_approx,h, U);
+Thrust = PropForce(FlightData, X, h, U);
+
+Fx=body(1)+Thrust;
+Fy=body(2);
+Fz=body(3);
 
 % Find the state rates
 Xdot(1) = r*v-q*w-g*sin(theta)+Fx/m;
@@ -65,7 +75,12 @@ Xdot(8) = 0.5*(q0*p-q3*q+q2*r);
 Xdot(9) = 0.5*(q3*p+q0*q-q1*r);
 Xdot(10) = -0.5*(q2*p-q1*q-q0*r);
 
-Xdot(11:13) = DCM(Q)*[u, v, w]';
+Xdot(11:13) = DCM(quaternions)*[u, v, w]';
+
+AngularRates_calc=AngularRates(X,Xdot);
+error=sum(abs(AngularRates_approx-AngularRates_calc));
+AngularRates_approx=AngularRates_calc;
+end
 
 
 end

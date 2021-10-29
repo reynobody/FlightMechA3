@@ -32,13 +32,14 @@ de0 = 0; % Nice friendly number
 
 
 % Errors and tolerances
-tol=10^(-8);
-error = 1;
+tol=10^(-5);
+error = 10;
 
 X_approx = [alpha0, dT0, de0]';
 
 % Choose the small perturbance
 dx = tol;
+cntr=0;
 
 while error>tol
 
@@ -47,8 +48,8 @@ while error>tol
 X(1) = V*cos(X_approx(1));
 X(3) = V*sin(X_approx(1));
 
-U(1) = dT0;
-U(2) = de0;
+U(1) = X_approx(2);
+U(2) = X_approx(3);
 
 
 % Step 2
@@ -63,11 +64,11 @@ X_dot = StateRates(X,FlightData,h,U);
 %% Angle of Attack
 Xa_p = X;
 Xa_p(1) = V*cos(X(1)+dx);
-Xa_p(1) = V*sin(X(1)+dx);
+Xa_p(3) = V*sin(X(1)+dx);
 
 Xa_m = X;
 Xa_m(1) = V*cos(X(1)-dx);
-Xa_m(1) = V*sin(X(1)-dx);
+Xa_m(3) = V*sin(X(1)-dx);
 
 % State Rates
 fXa_m = StateRates(Xa_m,FlightData,h,U);
@@ -95,7 +96,7 @@ Ue_m(2)=U(2)-dx;
 feT_m = StateRates(X,FlightData,h,Ue_m);
 feT_p = StateRates(X,FlightData,h,Ue_p);
 
-J_temp(:,3) = (fXe_p-fXe_m)/(2*dx);
+J_temp(:,3) = (feT_p-feT_m)/(2*dx);
 
 %% Jacobian Matrix
 % Rearrange for the terms of interest
@@ -105,6 +106,7 @@ fX = [X_dot(1),X_dot(3),X_dot(5)]';
 X_approx_new = X_approx-J\fX;
 error = sum(abs(X_approx_new-X_approx));
 X_approx = X_approx_new;
+
 end
 
 % Find the trimmed state
