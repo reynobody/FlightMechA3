@@ -20,7 +20,7 @@ U0 = Trimmed.U0;
 
 ControlInputs = Controls(condition);
 
-U_GUI = ControlInputs.U_filter(1:4,:);
+U_GUI = ControlInputs.U_linear(1:4,:);
 
 % Not sure if the stopping and stepping time are fixed with ControlGUI 
 % Probs not, ill still leave this here tho we can delete later
@@ -36,7 +36,7 @@ for i = time
     count = count+1;
     
     % Start control only at t = 5
-    if time >= 5
+    if  i >= 5
         
         % Update control counter
         count_c = count_c + 1;
@@ -50,6 +50,7 @@ for i = time
     else
         % Integrate without control input
         X_new = Integrate(X0,FlightData,h,U0,dt);
+        U = U0;
     end
     
     % Update states and rates
@@ -60,5 +61,8 @@ for i = time
     X_mat(:,count) = X0; 
      
     % Form the control matrix for each time step
-    control(:,count)=U0;
+    control(:,count)=U;
 end
+
+PlotData(time, X_mat, control);
+
