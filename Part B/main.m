@@ -20,28 +20,17 @@ U0 = Trimmed.U0;
 
 ControlInputs = Controls(condition);
 
-time_e = ControlInputs.X_de;
-delta_e = ControlInputs.Y_de;
-
-time_t = ControlInputs.X_dt;
-delta_t = ControlInputs.Y_dt;
-
-time_a = ControlInputs.X_da;
-delta_a = ControlInputs.Y_da; 
-
-time_r = ControlInputs.X_dr;
-delta_r = ControlInputs.Y_dr; 
-
-U_GUI = [delta_e'; delta_t'; delta_a'; delta_r'];
+U_GUI = ControlInputs.U_filter(1:4,:);
 
 % Not sure if the stopping and stepping time are fixed with ControlGUI 
 % Probs not, ill still leave this here tho we can delete later
-timestop = ControlInputs.SimTime;
-timestep = ControlInputs.TimeStep;
+time = ControlInputs.T_filter;
+dt = time(2) - time(1);
 
 count = 0;
 count_c = 0;
-while time=0:timestep:timestop
+
+for i = time
     
     % Update counter
     count = count+1;
