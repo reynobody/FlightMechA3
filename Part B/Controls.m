@@ -35,7 +35,7 @@ elseif casenum == 8
 end
 
 load_data = load(filename);
-output = load_data.GUI_save;
+output = load_data;
 
 end
 
