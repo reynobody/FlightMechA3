@@ -1,8 +1,9 @@
 % main
 clear
+clc
+close all
 clf 
 clf reset
-clc
 
 condition = 1;
 
