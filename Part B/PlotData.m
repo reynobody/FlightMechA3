@@ -34,6 +34,8 @@ figure(fc)
 plot(time,u,'r',time,v,'b',time,w,'m')
 grid minor
 legend('u','v','w')
+xlabel('Time')
+ylabel('Velocity')
 
 % Plot body rates p,q,r 
 fc = fc + 1;
@@ -41,16 +43,20 @@ figure(fc)
 plot(time,p,'r',time,q,'b',time,r,'m')
 grid minor
 legend('Roll','Pitch','Yaw')
+xlabel('Time')
+ylabel('Body Rates (deg/s)')
 
 % Plot euler angles (convert quaternions to euler angles first)
 for i = 1:length(quaternions(1,:))
-    vec(3,i) = q2e(quaternions(:,i));
+    vec(:,i) = q2e(quaternions(:,i));
 end
 fc = fc + 1;
 figure(fc)
 plot(time,vec(1,:),'r',time,vec(2,:),'b',time,vec(3,:),'m')
 grid minor
 legend('phi','theta','psi')
+xlabel('Time')
+ylabel('Euler Angles (deg)')
 
 % Plot x, y, z
 fc = fc + 1;
@@ -58,6 +64,17 @@ figure(fc)
 plot(time,x,'r',time,y,'b',time,z,'m')
 grid minor
 legend('x','y','z')
+xlabel('Time')
+ylabel('Position')
+
+% Plot x y z in 3D
+fc = fc + 1;
+figure(fc)
+plot3(x,y,z)
+grid minor
+xlabel('x')
+ylabel('y')
+zlabel('z')
 
 % Plot control angles
 fc = fc + 1;
@@ -65,4 +82,7 @@ figure(fc)
 plot(time,dt,time,de,time,da,time,dr)
 grid minor
 legend('Delta t','Delta e','Delta a','Delta r')
+xlabel('Time')
+ylabel('Controls')
 
+return
