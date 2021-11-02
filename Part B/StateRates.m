@@ -50,36 +50,43 @@ tol = 10^(-8);
 
 % AngularRates_approx to something friendly
 AngularRates_approx = [0,0];
+Xdot = zeros(13,1);
+
+
+Xdot(11:13) = DCM(quaternions)*[u; v; w];
 
 % The iteration loop starts here!
 while error > tol
-% Find the body forces
-[body, M, N, L] = BodyForces(FlightData, X, AngularRates_approx,h, U);
-Thrust = PropForce(FlightData, X, h, U);
+    % Find the body forces
+    [body, M, N, L] = BodyForces(FlightData, X, AngularRates_approx,h, U);
+    Thrust = PropForce(FlightData, X, h, U);
 
-Fx=body(1)+Thrust;
-Fy=body(2);
-Fz=body(3);
+    Fx=body(1)+Thrust;
+    Fy=body(2);
+    Fz=body(3);
 
-% Find the state rates
-Xdot(1) = r*v-q*w-g*sin(theta)+Fx/m;
-Xdot(2) = -r*u+p*w+g*sin(phi)*cos(theta)+Fy/m;
-Xdot(3) = q*u-p*v+g*cos(phi)*cos(theta)+Fz/m;
+    % Find the state rates
+    udot = r*v-q*w-g*sin(theta)+Fx/m;
+    vdot = -r*u+p*w+g*sin(phi)*cos(theta)+Fy/m;
+    wdot = q*u-p*v+g*cos(phi)*cos(theta)+Fz/m;
 
-Xdot(4) = C3*p*q+C4*q*r+C1*L+C2*N;
-Xdot(5) = C7*p*r-C6*(p^2-r^2)+C5*M;
-Xdot(6) = C9*p*q-C3*q*r+C2*L+C8*N;
+    pdot = C3*p*q+C4*q*r+C1*L+C2*N;
+    qdot = C7*p*r-C6*(p^2-r^2)+C5*M;
+    rdot = C9*p*q-C3*q*r+C2*L+C8*N;
 
-Xdot(7) = -0.5*(q1*p+q2*q+q3*r);
-Xdot(8) = 0.5*(q0*p-q3*q+q2*r);
-Xdot(9) = 0.5*(q3*p+q0*q-q1*r);
-Xdot(10) = -0.5*(q2*p-q1*q-q0*r);
+    q0dot = -0.5*(q1*p+q2*q+q3*r);
+    q1dot = 0.5*(q0*p-q3*q+q2*r);
+    q2dot = 0.5*(q3*p+q0*q-q1*r);
+    q3dot = -0.5*(q2*p-q1*q-q0*r);
 
-Xdot(11:13) = DCM(quaternions)*[u, v, w]';
+    XYZdot = DCM(quaternions)*[u; v; w];
 
-AngularRates_calc=AngularRates(X,Xdot);
-error=sum(abs(AngularRates_approx-AngularRates_calc));
-AngularRates_approx=AngularRates_calc;
+Xdot = [udot;vdot;wdot;pdot;qdot;rdot;q0dot;q1dot;q2dot;q3dot;XYZdot];
+
+    AngularRates_calc=AngularRates(Xdot);
+    error=sum(abs(AngularRates_approx-AngularRates_calc));
+    AngularRates_approx=AngularRates_calc;
+
 end
 
 

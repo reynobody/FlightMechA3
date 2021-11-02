@@ -1,6 +1,6 @@
 % Function to estimate alpha_dot and beta_dot
 
-function ret = AngularRates(X,Xdot)
+function ret = AngularRates(Xdot)
 
 % Body rates rates
 udot = Xdot(1);
@@ -8,9 +8,9 @@ vdot = Xdot(2);
 wdot = Xdot(3);
 
 % body rates
-u = X(1);
-v = X(2);
-w = X(3);
+u = Xdot(11);
+v = Xdot(12);
+w = Xdot(13);
 
 % Calculate V
 V = sqrt(u^2+v^2+w^2);
@@ -22,7 +22,6 @@ alphadot = (u*wdot-w*udot)/(u^2+w^2);
 % Calculate total beta dot (beta rate of change)
 betadot = (vdot/V - v*Vdot/V^2)/sqrt(1-v^2/V^2);
 
-% Output to ret
 ret=[alphadot,betadot];
-
 end
+
