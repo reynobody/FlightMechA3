@@ -18,7 +18,8 @@ U0 = Trimmed.U0;
 
 % inputs-------------------------------------------------------------------
 
-ControlInputs = Controls(condition);
+flightcase = 1; % NOT CONDITION: this is questions 1-8
+ControlInputs = Controls(flightcase);
 
 U_GUI = ControlInputs.U_linear(1:4,:);
 
