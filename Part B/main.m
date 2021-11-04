@@ -2,7 +2,7 @@
 clear
 clc
 close all
-clf 
+clf
 clf reset
 
 condition = 1;
@@ -24,7 +24,7 @@ ControlInputs = Controls(flightcase);
 
 U_GUI = ControlInputs.U_linear(1:4,:);
 
-% Not sure if the stopping and stepping time are fixed with ControlGUI 
+% Not sure if the stopping and stepping time are fixed with ControlGUI
 % Probs not, ill still leave this here tho we can delete later
 time = ControlInputs.T_linear;
 dt = time(2) - time(1);
@@ -44,24 +44,25 @@ for i = time
         count_c = count_c + 1;
         
         % Get control input from the GUI
-        U = U0 + U_GUI(:,count_c);
+        U = U0 + deg2rad(U_GUI(:,count_c));
         
         % Integrate the trajectory at each time step
         X_new = Integrate(X0,FlightData,h,U,dt);
         
     else
+        
         % Integrate without control input
-        X_new = Integrate(X0,FlightData,h,U0,dt);
         U = U0;
+        X_new = Integrate(X0,FlightData,h,U,dt);
+        
     end
     
     % Update states and rates
     X0 = X_new;
-
-    % IM NOT SURE ABOUT THESE FOLLOWING LINES, WHAT THEY MEAN
+    
     % Form the state matrix for each time step
-    X_mat(:,count) = X0; 
-     
+    X_mat(:,count) = X0;
+    
     % Form the control matrix for each time step
     control(:,count) = U;
     
