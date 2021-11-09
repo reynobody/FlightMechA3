@@ -22,4 +22,9 @@ Dn = xdot4*dt;
 % Step 5:
 Xnew = X+dt/6*(xdot1+2*xdot2+2*xdot3+xdot4);
 
+quaternions = Xnew(7:10);
+n = sum(quaternions.^2);
+quaternions = 1/sqrt(n)*quaternions;
+Xnew(7:10) = quaternions;
+
 end

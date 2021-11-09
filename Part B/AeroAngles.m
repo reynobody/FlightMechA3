@@ -9,7 +9,7 @@ v = X(2);
 w = X(3);
 
 V = sqrt(u^2+v^2+w^2);
-alpha = atan(w/u);
+alpha = atan2(w,u);
 beta = asin(v/V);
 
 end

@@ -2,11 +2,9 @@
 
 % Force due to gravity and rotate it to body axes
 
-function vec = Gravity(attitude)
-
-quaternions = e2q(attitude);
+function vec = Gravity(quaternions)
 
 g = 9.81;
-vec = DCM(quaternions)*[0;0;g]
+vec = DCM(quaternions)*[0;0;g];
 
 end

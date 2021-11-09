@@ -25,7 +25,7 @@ UT = U;       % Thrust
 Ude = U;       % Elevator
 
 % Dynamic Pressure (Q) from the flow properties
-[rho,Q] = FlowProperties(h,V);
+[~,Q] = FlowProperties(h,V);
 
 % Finding the initial estimates for everythig
 % For steady level flight, lift = weight
@@ -45,7 +45,7 @@ tol = 10^(-8);
 error = 1;
 
 % Set the pertubations to be very small
-dP = tol;
+dx = tol;
 
 while error > tol
     
@@ -62,7 +62,7 @@ while error > tol
     theta = X_approx(1);
     psi = 0;
     euler = [phi theta psi];
-    
+    euler = rad2deg(euler); % Need to convert because I made the e2q and q2e functions to use degrees
     
     % Converting to quaternions
     quaternions = e2q(euler);
@@ -71,36 +71,52 @@ while error > tol
     X(7:10) = quaternions';
     X_approx_dot = StateRates(X,FlightData,h,U);
     
-    % Small pertubations
+    %% Small pertubations
     
     % Angle of attack alpha
-    Xalpha = X;
-    Xalpha(1) = V*cos(X_approx(1)+dP);
-    Xalpha(3) = V*sin(X_approx(1)+dP);
+    Xa_p = X;
+    Xa_p(1) = V*cos(X_approx(1)+dx);
+    Xa_p(3) = V*sin(X_approx(1)+dx);
+
+        Xa_m = X;
+    Xa_m(1) = V*cos(X_approx(1)-dx);
+    Xa_m(3) = V*sin(X_approx(1)-dx);
     
     % Finding the angular rate of alpha
-    X_approx_dotA = StateRates(Xalpha,FlightData,h,U);
+    fXa_p = StateRates(Xa_p,FlightData,h,U);
+        fXa_m = StateRates(Xa_m,FlightData,h,U);
     
     % Finding the bits of the Jacobian matrix
-    J(:,1) = (X_approx_dotA-X_approx_dot)/dP;
+    J(:,1) = (fXa_p-fXa_m)/(2*dx);
     
+    %% Throttle
     % Do the same for throttle setting
-    UT(1) = X_approx(2)+dP;
-    UT(2) = X_approx(3);
+    UT_p = U;
+    UT_p(1) = X_approx(2)+dx;
+    UT_m = U;
+    UT_m(1) = X_approx(2)-dx;
     
-    X_approx_dotT = StateRates(X,FlightData,h,UT);
-    J(:,2) = (X_approx_dotT-X_approx_dot)/dP;
+    fUT_p = StateRates(X,FlightData,h,UT_p);
+    fUT_m = StateRates(X,FlightData,h,UT_m);
+    J(:,2) = (fUT_p-fUT_m)/(2*dx);
     
+
+   %% Elevator
     % Elevator deflection
-    Ude(1) = X_approx(2);
-    Ude(2) = X_approx(3)+dP;
-    X_approx_dotE = StateRates(X,FlightData,h,Ude);
-    J(:,3) = (X_approx_dotE-X_approx_dot)/dP;
+    Ue_p = U;
+    Ue_p(2) = X_approx(3)+dx;
+    Ue_m = U;
+    Ue_m(2) = X_approx(3)-dx;
     
+    fUe_p = StateRates(X,FlightData,h,Ue_p);
+    fUe_m = StateRates(X,FlightData,h,Ue_m);
+    J(:,3) = (fUe_p-fUe_m)/(2*dx);
+    
+    %% Jacobian SORTING
     % The Jacobian Matrix becomes
     Jacobian = [J(1,1) J(1,2) J(1,3);
-        J(3,1) J(3,2) J(3,3);
-        J(5,1) J(5,2) J(5,3)];
+                J(3,1) J(3,2) J(3,3);
+                J(5,1) J(5,2) J(5,3)];
     
     % Find a new estimate of the state variables
     X_approx_new = X_approx-Jacobian\[X_approx_dot(1); X_approx_dot(3); X_approx_dot(5)];
@@ -114,6 +130,7 @@ X0 = zeros(13,1);
 X0(1:3) = [V*cos(X_approx(1));0;V*sin(X_approx(1))];
 
 e = [0 X_approx(1) 0];
+e = rad2deg(e);
 qs = e2q(e);
 X0(7:10) = qs';
 X0(13) = -h; % Up is down
