@@ -32,39 +32,26 @@ dt = time(2) - time(1);
 count = 0;
 count_c = 0;
 
-for i = time
+for i = 1:length(time)
     
-    % Update counter
-    count = count+1;
-    
-    % Start control only at t = 5
-    if  i >= 5
+    h = -X0(13);
         
-        % Update control counter
-        count_c = count_c + 1;
+     % Get control input from the GUI
+     % This really depends if you're using control gui outputs in degs or rads
+     U = U0 + deg2rad(U_GUI(:,i));
         
-        % Get control input from the GUI
-        U = U0 + deg2rad(U_GUI(:,count_c));
+     % Integrate the trajectory at each time step
+     X_new = Integrate(X0,FlightData,h,U,dt);
         
-        % Integrate the trajectory at each time step
-        X_new = Integrate(X0,FlightData,h,U,dt);
-        
-    else
-        
-        % Integrate without control input
-        U = U0;
-        X_new = Integrate(X0,FlightData,h,U,dt);
-        
-    end
     
     % Update states and rates
     X0 = X_new;
     
     % Form the state matrix for each time step
-    X_mat(:,count) = X0;
+    X_mat(:,i) = X0;
     
     % Form the control matrix for each time step
-    control(:,count) = U;
+    control(:,i) = U;
     
 end
 
