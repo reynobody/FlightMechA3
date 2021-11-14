@@ -31,20 +31,23 @@ fc = 0;
 % Plot u, v, w
 fc = fc + 1;
 figure(fc)
-plot(time,u,'r',time,v,'b',time,w,'m')
+plot(time,u,'r',time,v,'b',time,w,'m','LineWidth',2)
 grid minor
+grid on
 legend('u','v','w')
-xlabel('Time')
-ylabel('Velocity')
+xlabel('Time (s)')
+ylabel('Velocity (m/s)')
+axis tight
 
 % Plot body rates p,q,r 
 fc = fc + 1;
 figure(fc)
-plot(time,p,'r',time,q,'b',time,r,'m')
+plot(time,p,'r',time,q,'b',time,r,'m','LineWidth',2)
 grid minor
 legend('Roll','Pitch','Yaw')
-xlabel('Time')
+xlabel('Time (s)')
 ylabel('Body Rates (deg/s)')
+axis tight
 
 % Plot euler angles (convert quaternions to euler angles first)
 for i = 1:length(quaternions(1,:))
@@ -52,37 +55,45 @@ for i = 1:length(quaternions(1,:))
 end
 fc = fc + 1;
 figure(fc)
-plot(time,vec(1,:),'r',time,vec(2,:),'b',time,vec(3,:),'m')
+plot(time,vec(1,:),'r',time,vec(2,:),'b',time,vec(3,:),'m','LineWidth',2)
 grid minor
+grid on
 legend('phi','theta','psi')
-xlabel('Time')
+xlabel('Time (s)')
 ylabel('Euler Angles (deg)')
+axis tight
+
 
 % Plot x, y, z
 fc = fc + 1;
 figure(fc)
-plot(time,x,'r',time,y,'b',time,z,'m')
+plot(time,x,'r',time,y,'b',time,z,'m','LineWidth',2)
 grid minor
+grid on
 legend('x','y','z')
-xlabel('Time')
-ylabel('Position')
+xlabel('Time (s)')
+ylabel('Position (m)')
+axis tight
 
 % Plot x y z in 3D
 fc = fc + 1;
 figure(fc)
-plot3(x,y,z)
+plot3(x,y,z,'LineWidth',2)
 grid minor
-xlabel('x')
-ylabel('y')
-zlabel('z')
+grid on
+xlabel('x (m)')
+ylabel('y (m)')
+zlabel('z (m)')
 
 % Plot control angles
 fc = fc + 1;
 figure(fc)
-plot(time,dt,time,de,time,da,time,dr)
+plot(time,dt,time,de,time,da,time,dr,'LineWidth',2)
 grid minor
+grid on
 legend('Delta t','Delta e','Delta a','Delta r')
-xlabel('Time')
-ylabel('Controls')
+xlabel('Time (s)')
+ylabel('Controls (deg)')
+axis tight
 
 return
